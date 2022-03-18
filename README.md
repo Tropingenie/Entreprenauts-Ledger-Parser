@@ -4,6 +4,7 @@ Specialized HTML parser that convers downloaded ledger html pages into CSV files
 ## Installation
 There are currently no releases, and no plans for any. However, the program can be run as a script. To do so, first time setup requires the following:
 1. Install [Python](https://www.python.org/downloads/)
+2. Pull/download the repo to a directory of your choice
 2. Open a terminal of your choice and navigate to the same directory the program is downloaded to
 3. Run the command `pip install -r requirements.txt` to download the dependencies
 
