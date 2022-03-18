@@ -1,2 +1,5 @@
 *.html
 *.csv
+__pycache__
+.git
+.vscode
