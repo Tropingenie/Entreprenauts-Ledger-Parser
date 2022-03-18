@@ -73,7 +73,10 @@ def process_ledger(ledgers, old_most_recent_entry):
 
     # Parse all passed html files into a single table
     for ledger in ledgers:
+        print("Reading from file: \"{}\"".format(ledger))
         table = parse_ledger(ledger)
+        if table is None:
+            continue
         new_most_recent_entry = max(table["ID"][0],new_most_recent_entry)
 
         # Iterate through rows
@@ -113,6 +116,5 @@ if (__name__ == "__main__"):
     if(len(sys.argv)):
         old_most_recent_entry = int(sys.argv[1])
         ledgers = [sys.argv[i] for i in range(2, len(sys.argv))]
-        print("Reading from file: \"{}\"".format(ledger))
         print("Ignoring entries below ledger entry: {}".format(old_most_recent_entry))
         process_ledger(ledgers, old_most_recent_entry)

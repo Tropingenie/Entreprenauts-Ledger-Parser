@@ -1,5 +1,5 @@
 # Meta Ledger Parser
-Specialized HTML parser that convers downloaded ledger html pages into CSV files for export into Google Sheets. Currently designed with a focus on extracting and compiling per-truck financial data for assisting with semi operations data analysis.
+Specialized HTML parser that converts downloaded ledger html pages into CSV files for export into Google Sheets. Currently designed with a focus on extracting and compiling per-truck financial data for assisting with semi operations data analysis.
 
 ## Installation
 There are currently no releases, and no plans for any. However, the program can be run as a script. To do so, first time setup requires the following:
