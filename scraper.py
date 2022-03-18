@@ -9,6 +9,9 @@ from truck_table import TruckTable
 # Path to ledger html file
 ledger = None
 
+# One of these will stay at None, used to check whether in ID or date mode
+day = None
+old_most_recent_entry = None
 
 def parse_ledger(ledger):
     """
@@ -66,9 +69,9 @@ def parse_amount(amount_string):
     else:
         return magnitude
 
-def process_ledger(ledgers, old_most_recent_entry):
+def process_ledger(ledgers, old_most_recent_entry=None, day=None):
     truck_table=TruckTable()
-    new_most_recent_entry = old_most_recent_entry
+    new_most_recent_entry = 0
     early_end = False
 
     # Parse all passed html files into a single table
@@ -77,19 +80,28 @@ def process_ledger(ledgers, old_most_recent_entry):
         table = parse_ledger(ledger)
         if table is None:
             continue
-        new_most_recent_entry = max(table["ID"][0],new_most_recent_entry)
 
         # Iterate through rows
         for i in range(len(table)):
             # Extract each column
             ledger_ID = table["ID"][i]
-            if ledger_ID <= old_most_recent_entry:
-                early_end = True
-                break
             truck_number = parse_truck_number(table["Details"][i])
             date = parse_date(table["Timestamp"][i])
             amount = parse_amount(table["Amount"][i])
             category = table["Category"][i]
+
+            # Check if ledger ID is too low (in ID mode)
+            if old_most_recent_entry is not None and ledger_ID <= old_most_recent_entry:
+                early_end = True
+                continue
+
+            # Check if date is incorrect (in date mode)
+            if(day is not None and date != day):
+                early_end = True
+                continue
+
+            # Check if this valid entry is more or less recent and update the ID
+            new_most_recent_entry = max(ledger_ID, new_most_recent_entry)
 
             # Save to table
             if(category == "Fuel"):
@@ -114,7 +126,12 @@ def process_ledger(ledgers, old_most_recent_entry):
 
 if (__name__ == "__main__"):
     if(len(sys.argv)):
-        old_most_recent_entry = int(sys.argv[1])
+        if("-" in sys.argv[1]):
+            # Date mode
+            day = sys.argv[1]
+        else:
+            # ID mode
+            old_most_recent_entry = int(sys.argv[1])
         ledgers = [sys.argv[i] for i in range(2, len(sys.argv))]
         print("Ignoring entries below ledger entry: {}".format(old_most_recent_entry))
-        process_ledger(ledgers, old_most_recent_entry)
+        process_ledger(ledgers, old_most_recent_entry, day)
