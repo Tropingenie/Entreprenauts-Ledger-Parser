@@ -108,7 +108,7 @@ def process_ledger(ledgers, old_most_recent_entry=None, day=None):
                 truck_table.update_truck(date, truck_number, fuel=amount)
             elif(category == "Shipment"):
                 truck_table.update_truck(date, truck_number, income=amount)
-            elif(category == "Tires" or category == "Incident"):
+            elif(category == "Tires" or category == "Breakdown"):
                 truck_table.update_truck(date, truck_number, maintenance=amount)
             # Else do nothing; this is not to do with trucks
 
