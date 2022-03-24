@@ -21,12 +21,13 @@ In ID mode, the parser will parse all ledger entries above a certain ID. This is
 In date mode, the parser will parse all ledger entries that fall on a certain day. This is useful for compiling daily per-truck financial reports.
 
 ### Running the Parser
-To run the parser, you need to run the program with at least 2 command line arguments: The ID of the oldest ledger entry you have saved or a date, and the path to at least one html file containing the ledger.
+To run the parser, you need to run the program with at least 1 command line arguments: The ID of the oldest ledger entry you have saved or a date. Opetonally, the path(s) to at least one html file containing the ledger.
 
-#### Downloading the ledger pages
-To parse the ledger, currently ledger pages must be downloaded. This can be done simply enough by going into your ledger on Entreprenauts, right clicking anywhere, and selecting "Save As"
+Generically, the parser can be run using:
+- `python scraper.py "YYYY-MM-DD"`
+- `python scraper.py "OldestID"`
 
-![Save as dialogue](https://cdn.discordapp.com/attachments/945223875279601687/954242999771099206/unknown.png)
+See below for specific examples.
 
 #### ID Mode
 General steps are:
@@ -47,3 +48,14 @@ Running the parser in date mode is identical to running it in ID mode, except yo
 
 For example, to parse two pages of my ledger in date mode:
 ![Example input using date mode](https://cdn.discordapp.com/attachments/945223875279601687/954240683202478080/unknown.png "Example input using date mode")
+
+### Downloading the ledger pages
+To parse the ledger, currently ledger pages must be downloaded. This can be done simply enough by going into your ledger on Entreprenauts, right clicking anywhere, and selecting "Save As"
+
+![Save as dialogue](https://cdn.discordapp.com/attachments/945223875279601687/954242999771099206/unknown.png)
+
+One note is that you need to ensure the html containing the table is saved. If you have downloaded the page and are getting "no table found" errors, then check that the table is actually in the .html file. An html table looks like the following:
+
+![Example html table](https://cdn.discordapp.com/attachments/945223875279601687/956588385005355018/unknown.png)
+
+To avoid this issue it is recommended to download the entire webpage through the save as dialogue, instead of just the html file.

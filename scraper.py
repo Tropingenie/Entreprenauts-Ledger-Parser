@@ -1,8 +1,10 @@
 import sys
-import os.path as path
-from numpy import double
+from os import listdir
+from os.path import isfile
+from re import search
 
 import pandas as pd
+from numpy import double
 
 from truck_table import TruckTable
 
@@ -18,7 +20,7 @@ def parse_ledger(ledger):
     Input: Path to html file containing table to be parsed
     Output: DataFrame of the table, or None
     """
-    if path.isfile(ledger):
+    if isfile(ledger):
         contents = None
         with open(ledger) as file:
             contents = file.read()
@@ -125,13 +127,31 @@ def process_ledger(ledgers, old_most_recent_entry=None, day=None):
 
 
 if (__name__ == "__main__"):
-    if(len(sys.argv)):
-        if("-" in sys.argv[1]):
+
+    # TODO: Scrape the Entreprenauts webpage using Selenium. The code below is
+    # basically placeholder, to allow users to manually download the .html files
+    # of the ledger pages until automation is implemented.
+
+    if(len(sys.argv) > 1):
+        if(search("[0-9]{4}-[0-9]{2}-[0-9]{2}", sys.argv[1]) is not None):
             # Date mode
             day = sys.argv[1]
+            print("Ignoring entries from before: {}".format(day))
         else:
             # ID mode
             old_most_recent_entry = int(sys.argv[1])
-        ledgers = [sys.argv[i] for i in range(2, len(sys.argv))]
-        print("Ignoring entries below ledger entry: {}".format(old_most_recent_entry))
+            print("Ignoring entries below ledger entry: {}".format(old_most_recent_entry))
+
+        if len(sys.argv) < 3:
+            # No files passed as CLI args
+            ledgers = [x for x in listdir(".") if ".html" in x]
+        else:
+            # Specific files passed as CLI args
+            ledgers = [sys.argv[i] for i in range(2, len(sys.argv))]
+        # print(ledgers)  # Debug
+
         process_ledger(ledgers, old_most_recent_entry, day)
+
+    else:
+        print("Parser requires at least one argument to run! Please refer to "
+              "the instructions in \"README.MD\" for an explanation of usage.")

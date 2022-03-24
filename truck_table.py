@@ -74,6 +74,9 @@ class TruckTable:
             data.append(align_to_date(align, "",      "Fuel:", "{}".format(fuel_i)))
             data.append(align_to_date(align, "",      "Maintenance:", "{}".format(maintenance_i)))
 
+            # TODO: Collapse entries for the same truck on different dates into
+            # a single row
+
         # tabulated_data = tabulate(data, header, tablefmt="simple")
         tabulated_data = DataFrame(data, columns=header)
         return(tabulated_data)
