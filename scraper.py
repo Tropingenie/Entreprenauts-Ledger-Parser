@@ -136,7 +136,7 @@ if (__name__ == "__main__"):
         if(search("[0-9]{4}-[0-9]{2}-[0-9]{2}", sys.argv[1]) is not None):
             # Date mode
             day = sys.argv[1]
-            print("Ignoring entries from before: {}".format(day))
+            print("Ignoring entries from not on: {}".format(day))
         else:
             # ID mode
             old_most_recent_entry = int(sys.argv[1])
